@@ -1,1 +1,2 @@
-# ISIS2603_202510_5_parcial1
+Julian Rafael Pinto
+202321207

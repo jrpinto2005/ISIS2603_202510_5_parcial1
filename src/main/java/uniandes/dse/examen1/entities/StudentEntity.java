@@ -7,8 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import lombok.Data;
 import uk.co.jemos.podam.common.PodamExclude;
 
@@ -36,11 +36,13 @@ public class StudentEntity {
      * Each record indicates the semester, the course, and the final grade of the
      * student in the course.
      */
-    // TODO
+    @OneToMany
+    private List<RecordEntity> records = new ArrayList<>();
 
     /**
      * A list of all the courses that the student has ever taken. No course should
      * appear more than once in this list.
      */
-    // TODO
+    @ManyToMany
+    private List<CourseEntity> courses = new ArrayList<>();
 }
