@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 import uniandes.dse.examen1.entities.CourseEntity;
@@ -28,32 +29,34 @@ public class RecordService {
     @Autowired
     RecordRepository recordRepository;
 
+
+    @Transactional
     public RecordEntity createRecord(String loginStudent, String courseCode, Double grade, String semester)
             throws InvalidRecordException 
     {
-     Optional<StudentEntity> estudiante = studentRepository.findByLogin(loginStudent);
-     if (estudiante.isEmpty())   
-     throw new InvalidRecordException("El estudiante no existe");
-     Optional<CourseEntity> curso = courseRepository.findByCourseCode(courseCode);
-     if (courseCode.isEmpty())
-     throw new InvalidRecordException("El curso no existe");
-     if (grade<1.5||grade>5)
-     throw new InvalidRecordException("La calificacion no es valida");
-     if (grade>=3)
-     {
+        Optional<StudentEntity> estudiante = studentRepository.findByLogin(loginStudent);
+        if (estudiante.isEmpty())   
+            throw new InvalidRecordException("El estudiante no existe");
+        Optional<CourseEntity> curso = courseRepository.findByCourseCode(courseCode);
+        if (curso.isEmpty())
+            throw new InvalidRecordException("El curso no existe");
+        if (grade < 1.5 || grade > 5)
+            throw new InvalidRecordException("La calificacion no es valida");
         List<RecordEntity> records = estudiante.get().getRecords();
         for (RecordEntity record : records)
         {
-            if (record.getCourse() == curso.get() && record.getFinalGrade()>=3)
-            throw new InvalidRecordException("Este curso ya fue aprobado");
+            if (record.getCourse().equals(curso.get()) && record.getFinalGrade() >= 3)
+                throw new InvalidRecordException("Este curso ya fue aprobado");
         }
-     }
-     RecordEntity newRecord = new RecordEntity();
-     newRecord.setCourse(curso.get()); 
-     newRecord.setEstudiante(estudiante.get());
-     newRecord.setFinalGrade(grade);
-     newRecord.setSemester(semester);
-     log.info("Creado y guardado con exito");
-     return recordRepository.save(newRecord);
+        
+        RecordEntity newRecord = new RecordEntity();
+        newRecord.setCourse(curso.get()); 
+        newRecord.setEstudiante(estudiante.get());
+        newRecord.setFinalGrade(grade);
+        newRecord.setSemester(semester);
+        estudiante.get().getRecords().add(newRecord);
+        curso.get().getStudents().add(estudiante.get());
+        log.info("Creado y guardado con exito");
+        return recordRepository.save(newRecord);
     }
 }

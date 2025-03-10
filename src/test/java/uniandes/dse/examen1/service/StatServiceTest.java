@@ -17,6 +17,7 @@ import uniandes.dse.examen1.repositories.CourseRepository;
 import uniandes.dse.examen1.repositories.StudentRepository;
 import uniandes.dse.examen1.services.CourseService;
 import uniandes.dse.examen1.services.RecordService;
+import uniandes.dse.examen1.services.StatsService;
 import uniandes.dse.examen1.services.StudentService;
 
 @DataJpaTest
@@ -47,7 +48,21 @@ public class StatServiceTest {
 
     @Test
     void testFailure() {
-        // TODO
+        StatsService statsService = new StatsService();
+        try
+        {
+        statsService.calculateCourseAverage("123");
         fail("always fails ...");
+        }
+        catch(Exception e){
+        try 
+        {
+            statsService.calculateStudentAverage("123");
+            fail("always fails ...");
+        }
+        catch(Exception e2){
+        }
+
     }
+}
 }

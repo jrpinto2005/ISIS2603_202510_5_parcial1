@@ -43,7 +43,7 @@ public class CourseServiceTest {
         try
         {
             CourseEntity storedEntity = courseService.createCourse(newEntity);
-            CourseEntity retrieved = entityManager.find(CourseEntity.class, storedEntity);
+            CourseEntity retrieved = entityManager.find(CourseEntity.class, storedEntity.getId());
             assertEquals(codigo, retrieved.getCourseCode(),"No coincide el codigo");
         } catch (RepeatedCourseException e){
         fail("No exception should be thrown");}

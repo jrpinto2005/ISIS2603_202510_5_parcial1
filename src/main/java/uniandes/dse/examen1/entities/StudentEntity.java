@@ -36,6 +36,7 @@ public class StudentEntity {
      * Each record indicates the semester, the course, and the final grade of the
      * student in the course.
      */
+    @PodamExclude
     @OneToMany
     private List<RecordEntity> records = new ArrayList<>();
 
@@ -43,6 +44,7 @@ public class StudentEntity {
      * A list of all the courses that the student has ever taken. No course should
      * appear more than once in this list.
      */
+    @PodamExclude
     @ManyToMany
     private List<CourseEntity> courses = new ArrayList<>();
 }

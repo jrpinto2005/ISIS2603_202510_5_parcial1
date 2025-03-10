@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import uniandes.dse.examen1.entities.CourseEntity;
-import uniandes.dse.examen1.entities.StudentEntity;
 import uniandes.dse.examen1.exceptions.RepeatedCourseException;
-import uniandes.dse.examen1.exceptions.RepeatedStudentException;
 import uniandes.dse.examen1.repositories.CourseRepository;
 
 @Slf4j
